@@ -57,7 +57,7 @@ export default function ContactoPage() {
       `Mensaje:\n${formData.message}`
 
     // Usar mailto como fallback (en producción se debería usar un endpoint)
-    const mailtoLink = `mailto:contacto@ranvisystems.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const mailtoLink = `mailto:contacto@ranvi.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     
     // Intentar abrir el cliente de email
     window.location.href = mailtoLink

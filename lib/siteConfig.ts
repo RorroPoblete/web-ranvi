@@ -79,6 +79,85 @@ export const siteConfig = {
         },
       ],
     },
+    appointmentChatbot: {
+      title: 'Chatbot de Confirmación de Citas',
+      description: 'Automatiza la gestión de citas médicas mediante inteligencia artificial conversacional',
+      benefits: [
+        'Reducción de carga administrativa',
+        'Disponibilidad 24/7 para pacientes',
+        'Confirmación y reagendamiento automático',
+        'Reducción de inasistencias',
+      ],
+      howItWorks: [
+        {
+          step: 1,
+          title: 'Confirmación',
+          description: 'El chatbot contacta automáticamente a los pacientes para confirmar sus citas programadas',
+        },
+        {
+          step: 2,
+          title: 'Reagendamiento',
+          description: 'Los pacientes pueden reagendar sus citas de forma inmediata a través de una conversación natural',
+        },
+        {
+          step: 3,
+          title: 'Agendamiento',
+          description: 'Nuevos pacientes pueden agendar citas disponibles interactuando con el chatbot',
+        },
+      ],
+      features: [
+        'Confirmación automática de citas',
+        'Reagendamiento en tiempo real',
+        'Agendamiento de nuevas citas',
+        'Recordatorios personalizados',
+        'Integración con sistemas de gestión',
+        'Múltiples canales de comunicación',
+      ],
+    },
+    qualitySystem: {
+      title: 'Sistema de Calidad para Acreditación',
+      description: 'Herramienta integral para gestionar y monitorear los estándares de calidad necesarios para la acreditación de clínicas',
+      benefits: [
+        'Preparación eficiente para procesos de acreditación',
+        'Gestión centralizada de indicadores de calidad',
+        'Cumplimiento de normativas y estándares',
+        'Mejora continua de procesos clínicos',
+        'Documentación automatizada',
+      ],
+      howItWorks: [
+        {
+          step: 1,
+          title: 'Evaluación',
+          description: 'Análisis inicial del estado actual de la clínica respecto a los estándares de acreditación',
+        },
+        {
+          step: 2,
+          title: 'Planificación',
+          description: 'Desarrollo de planes de acción y seguimiento para cumplir con los requisitos de calidad',
+        },
+        {
+          step: 3,
+          title: 'Monitoreo',
+          description: 'Seguimiento continuo de indicadores y métricas de calidad en tiempo real',
+        },
+      ],
+      features: [
+        'Gestión de indicadores de calidad',
+        'Documentación de procesos',
+        'Auditorías internas',
+        'Reportes de cumplimiento',
+        'Trazabilidad de mejoras',
+        'Dashboard de métricas',
+        'Alertas y notificaciones',
+        'Integración con sistemas clínicos',
+      ],
+      standards: [
+        'Estándares nacionales de acreditación',
+        'Normativas internacionales (JCI, ISO)',
+        'Regulaciones del sector salud',
+        'Estándares de seguridad del paciente',
+      ],
+    },
   },
 
   // Partners

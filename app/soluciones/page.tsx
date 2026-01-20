@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { siteConfig } from '@/lib/siteConfig'
-import { CheckIcon, QueueListIcon, CreditCardIcon, ShieldCheckIcon, LinkIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline'
+import { CheckIcon, QueueListIcon, CreditCardIcon, ShieldCheckIcon, LinkIcon, BuildingLibraryIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
   title: 'Soluciones',
-  description: 'Conoce nuestras soluciones tecnológicas para el sector salud: Gestor de Fila Digital y Tótem de Autopago',
+  description: 'Conoce nuestras soluciones tecnológicas para el sector salud: Gestor de Fila Digital, Tótem de Autopago, Chatbot de Confirmación de Citas y Sistema de Calidad para Acreditación',
 }
 
 export default function SolucionesPage() {
@@ -184,6 +184,183 @@ export default function SolucionesPage() {
                   Se integra de manera fluida con sistemas de facturación y gestión existentes, 
                   permitiendo sincronización en tiempo real de transacciones y estados de cuenta. 
                   Compatible con las principales pasarelas de pago del mercado como Transbank y Getnet.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Chatbot de Confirmación de Citas */}
+      <section id="chatbot-citas" className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0 bg-white rounded-lg p-4 flex items-center justify-center">
+                <ChatBubbleLeftRightIcon className="h-32 w-32 text-primary-500" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="heading-2">{siteConfig.solutions.appointmentChatbot.title}</h2>
+                <p className="text-body mt-2">{siteConfig.solutions.appointmentChatbot.description}</p>
+              </div>
+            </div>
+
+            {/* Beneficios */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-6">Beneficios</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {siteConfig.solutions.appointmentChatbot.benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start">
+                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
+                    <p className="text-navy-700">{benefit}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cómo funciona */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-8">Cómo funciona</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                {siteConfig.solutions.appointmentChatbot.howItWorks.map((step) => (
+                  <div key={step.step} className="card text-center">
+                    <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                      {step.step}
+                    </div>
+                    <h4 className="heading-3 text-xl mb-3">{step.title}</h4>
+                    <p className="text-navy-600">{step.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Funcionalidades */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-6">Funcionalidades</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {siteConfig.solutions.appointmentChatbot.features.map((feature, index) => (
+                  <div key={index} className="card text-center">
+                    <p className="font-semibold text-navy-900">{feature}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Integración y Disponibilidad */}
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="card">
+                <div className="flex items-center mb-4">
+                  <LinkIcon className="h-8 w-8 text-primary-500 mr-3" />
+                  <h4 className="heading-3 text-xl">Integración</h4>
+                </div>
+                <p className="text-navy-700">
+                  Se integra perfectamente con sistemas de gestión de citas y agendas médicas existentes, 
+                  sincronizando información en tiempo real y manteniendo la coherencia de datos.
+                </p>
+              </div>
+              <div className="card">
+                <div className="flex items-center mb-4">
+                  <ShieldCheckIcon className="h-8 w-8 text-primary-500 mr-3" />
+                  <h4 className="heading-3 text-xl">Disponibilidad 24/7</h4>
+                </div>
+                <p className="text-navy-700">
+                  El chatbot está disponible las 24 horas del día, los 7 días de la semana, permitiendo 
+                  a los pacientes gestionar sus citas en cualquier momento sin depender del horario de atención.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sistema de Calidad para Acreditación */}
+      <section id="sistema-calidad" className="section-padding bg-navy-50">
+        <div className="container-custom">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0 bg-white rounded-lg p-4 flex items-center justify-center">
+                <ShieldCheckIcon className="h-32 w-32 text-primary-500" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="heading-2">{siteConfig.solutions.qualitySystem.title}</h2>
+                <p className="text-body mt-2">{siteConfig.solutions.qualitySystem.description}</p>
+              </div>
+            </div>
+
+            {/* Beneficios */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-6">Beneficios</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {siteConfig.solutions.qualitySystem.benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start">
+                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
+                    <p className="text-navy-700">{benefit}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Cómo funciona */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-8">Cómo funciona</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                {siteConfig.solutions.qualitySystem.howItWorks.map((step) => (
+                  <div key={step.step} className="card text-center">
+                    <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                      {step.step}
+                    </div>
+                    <h4 className="heading-3 text-xl mb-3">{step.title}</h4>
+                    <p className="text-navy-600">{step.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Funcionalidades */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-6">Funcionalidades</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {siteConfig.solutions.qualitySystem.features.map((feature, index) => (
+                  <div key={index} className="card text-center">
+                    <p className="font-semibold text-navy-900">{feature}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Estándares y Normativas */}
+            <div className="mb-12">
+              <h3 className="heading-3 mb-6">Estándares y Normativas</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {siteConfig.solutions.qualitySystem.standards.map((standard, index) => (
+                  <div key={index} className="card">
+                    <p className="font-semibold text-navy-900 text-center">{standard}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Integración y Soporte */}
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="card">
+                <div className="flex items-center mb-4">
+                  <LinkIcon className="h-8 w-8 text-primary-500 mr-3" />
+                  <h4 className="heading-3 text-xl">Integración</h4>
+                </div>
+                <p className="text-navy-700">
+                  Se integra con sistemas de gestión hospitalaria y clínicos existentes, permitiendo 
+                  la recopilación automática de datos y la generación de reportes de cumplimiento 
+                  en tiempo real.
+                </p>
+              </div>
+              <div className="card">
+                <div className="flex items-center mb-4">
+                  <ShieldCheckIcon className="h-8 w-8 text-primary-500 mr-3" />
+                  <h4 className="heading-3 text-xl">Acompañamiento</h4>
+                </div>
+                <p className="text-navy-700">
+                  Ofrecemos acompañamiento especializado durante todo el proceso de preparación 
+                  para la acreditación, desde la evaluación inicial hasta la certificación final.
                 </p>
               </div>
             </div>

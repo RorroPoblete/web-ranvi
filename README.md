@@ -107,7 +107,6 @@ Los colores se pueden personalizar en `tailwind.config.ts`. La paleta actual inc
 - Partners y ecosistema
 - Integración con entornos clínicos
 - Por qué elegir Ranvi Systems
-- Testimonios (placeholder)
 - FAQ
 - Formulario de contacto
 
@@ -147,7 +146,6 @@ Los colores se pueden personalizar en `tailwind.config.ts`. La paleta actual inc
 
 - El formulario de contacto actualmente usa `mailto:` como fallback. En producción, se debe implementar un endpoint real.
 - Los logos de partners son placeholders. Reemplazar con assets reales cuando estén disponibles.
-- Los testimonios son placeholders. Agregar testimonios reales cuando estén disponibles.
 
 ## 📞 Soporte
 

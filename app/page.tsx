@@ -4,7 +4,8 @@ import SolutionCard from '@/components/SolutionCard'
 import PartnerBadge from '@/components/PartnerBadge'
 import FAQ from '@/components/FAQ'
 import Icon from '@/components/Icon'
-import { QueueListIcon, CreditCardIcon } from '@heroicons/react/24/outline'
+import { QueueListIcon, CreditCardIcon, ChatBubbleLeftRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
+import ContactForm from '@/components/ContactForm'
 
 export const metadata = {
   title: 'Inicio',
@@ -61,7 +62,7 @@ export default function HomePage() {
               Tecnología diseñada específicamente para optimizar la gestión y atención en centros de salud
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             <SolutionCard
               title={siteConfig.solutions.queueManager.title}
               description={siteConfig.solutions.queueManager.description}
@@ -73,6 +74,18 @@ export default function HomePage() {
               description={siteConfig.solutions.paymentKiosk.description}
               href="/soluciones#totem-autopago"
               icon={<CreditCardIcon className="h-12 w-12" />}
+            />
+            <SolutionCard
+              title={siteConfig.solutions.appointmentChatbot.title}
+              description={siteConfig.solutions.appointmentChatbot.description}
+              href="/soluciones#chatbot-citas"
+              icon={<ChatBubbleLeftRightIcon className="h-12 w-12" />}
+            />
+            <SolutionCard
+              title={siteConfig.solutions.qualitySystem.title}
+              description={siteConfig.solutions.qualitySystem.description}
+              href="/soluciones#sistema-calidad"
+              icon={<ShieldCheckIcon className="h-12 w-12" />}
             />
           </div>
         </div>
@@ -151,44 +164,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonios (placeholder) */}
-      <section className="section-padding bg-navy-50">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="heading-2 mb-4">Lo que dicen nuestros clientes</h2>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="card">
-                <p className="text-navy-700 mb-4 italic">
-                  "Las soluciones de Ranvi Systems han mejorado significativamente la eficiencia 
-                  en nuestro centro de atención."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-200 to-primary-300 rounded-full mr-4"></div>
-                  <div>
-                    <p className="font-semibold text-navy-900">Centro de Salud</p>
-                    <p className="text-sm text-navy-600">Chile</p>
-                  </div>
-                </div>
-              </div>
-              <div className="card">
-                <p className="text-navy-700 mb-4 italic">
-                  "La implementación fue fluida y el soporte continuo ha sido excelente."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-teal-200 to-teal-300 rounded-full mr-4"></div>
-                  <div>
-                    <p className="font-semibold text-navy-900">Clínica</p>
-                    <p className="text-sm text-navy-600">Chile</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section className="section-padding bg-white">
         <div className="container-custom">
@@ -219,104 +194,3 @@ export default function HomePage() {
   )
 }
 
-// Componente de formulario de contacto (reutilizado en página de contacto)
-function ContactForm() {
-  return (
-    <form 
-      action="mailto:contacto@ranvisystems.cl?subject=Contacto desde sitio web" 
-      method="post"
-      encType="text/plain"
-      className="bg-white rounded-xl p-8 shadow-xl"
-    >
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-navy-900 mb-2">
-            {siteConfig.contact.form.name} <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-            aria-required="true"
-          />
-        </div>
-        <div>
-          <label htmlFor="company" className="block text-sm font-semibold text-navy-900 mb-2">
-            {siteConfig.contact.form.company}
-          </label>
-          <input
-            type="text"
-            id="company"
-            name="company"
-            className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-          />
-        </div>
-      </div>
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label htmlFor="position" className="block text-sm font-semibold text-navy-900 mb-2">
-            {siteConfig.contact.form.position}
-          </label>
-          <input
-            type="text"
-            id="position"
-            name="position"
-            className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-navy-900 mb-2">
-            {siteConfig.contact.form.email} <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-            aria-required="true"
-          />
-        </div>
-      </div>
-      <div className="mb-6">
-        <label htmlFor="phone" className="block text-sm font-semibold text-navy-900 mb-2">
-          {siteConfig.contact.form.phone}
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-        />
-      </div>
-      <div className="mb-6">
-        <label htmlFor="message" className="block text-sm font-semibold text-navy-900 mb-2">
-          {siteConfig.contact.form.message} <span className="text-red-500">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={5}
-          required
-          className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-          aria-required="true"
-        ></textarea>
-      </div>
-      <div className="mb-6">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            name="demo"
-            className="mr-2 w-4 h-4 text-primary-600 border-navy-300 rounded focus:ring-primary-500"
-          />
-          <span className="text-navy-900">{siteConfig.contact.form.demoCheckbox}</span>
-        </label>
-      </div>
-      <button type="submit" className="btn-primary w-full">
-        {siteConfig.contact.form.submit}
-      </button>
-    </form>
-  )
-}
