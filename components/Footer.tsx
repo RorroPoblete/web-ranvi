@@ -1,73 +1,69 @@
- import Link from 'next/link'
+import Link from 'next/link'
+import Image from 'next/image'
 import { siteConfig } from '@/lib/siteConfig'
 
-export default function Footer() {
-  const currentYear = new Date().getFullYear()
+const productLinks = [
+  { slug: 'crm-quirurgico', label: 'CRM Quirúrgico' },
+  { slug: 'biopsias', label: 'Trazabilidad de Biopsias' },
+  { slug: 'equipos-medicos', label: 'Gestión de Equipos Médicos' },
+  { slug: 'gestor-fila', label: 'Gestor de Fila Digital' },
+  { slug: 'totem-autopago', label: 'Tótem de Autopago' },
+  { slug: 'chatbot-citas', label: 'Chatbot de Citas' },
+  { slug: 'sistema-calidad', label: 'Sistema de Calidad' },
+]
 
+export default function Footer() {
+  const year = new Date().getFullYear()
   return (
-    <footer className="bg-navy-900 text-white">
-      <div className="container-custom section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Company Info */}
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="text-xl font-bold mb-4">{siteConfig.name}</h3>
-            <p className="text-navy-300 mb-4">
-              {siteConfig.company} es una empresa chilena dedicada al desarrollo e implementación 
-              de soluciones tecnológicas enfocadas en el sector salud.
-            </p>
-            <p className="text-navy-300">
-              {siteConfig.country}
+    <footer className="bg-navy-900 text-navy-300">
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-4 gap-10 mb-12">
+          <div className="md:col-span-1">
+            <Image
+              src="/logo-ranvi.png"
+              alt="Ranvi Systems"
+              width={140}
+              height={40}
+              className="h-10 w-auto brightness-0 invert opacity-90 mb-4"
+            />
+            <p className="text-navy-400 text-sm leading-relaxed">
+              Software clínico para clínicas y hospitales en Chile.
             </p>
           </div>
 
-          {/* Links */}
           <div>
-            <h4 className="font-semibold mb-4">Navegación</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link 
-                  href="/" 
-                  className="text-navy-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-                >
-                  {siteConfig.nav.home}
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/soluciones" 
-                  className="text-navy-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-                >
-                  {siteConfig.nav.solutions}
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/nosotros" 
-                  className="text-navy-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-                >
-                  {siteConfig.nav.about}
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/contacto" 
-                  className="text-navy-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-                >
-                  {siteConfig.nav.contact}
-                </Link>
-              </li>
+            <h4 className="text-white font-semibold text-sm mb-4">Productos</h4>
+            <ul className="space-y-2 text-sm">
+              {productLinks.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/soluciones#${p.slug}`} className="hover:text-white transition">
+                    {p.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4">Contacto</h4>
-            <ul className="space-y-2 text-navy-300">
+            <h4 className="text-white font-semibold text-sm mb-4">Empresa</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/nosotros" className="hover:text-white transition">{siteConfig.nav.about}</Link></li>
+              <li><Link href="/soluciones" className="hover:text-white transition">{siteConfig.nav.solutions}</Link></li>
+              <li><Link href="/contacto" className="hover:text-white transition">{siteConfig.nav.contact}</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold text-sm mb-4">Contacto</h4>
+            <ul className="space-y-2 text-sm">
+              <li>{siteConfig.country}</li>
               <li>
-                <Link 
-                  href="/contacto" 
-                  className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-                >
+                <a href="mailto:contacto@ranvi.cl" className="hover:text-white transition">
+                  contacto@ranvi.cl
+                </a>
+              </li>
+              <li>
+                <Link href="/contacto" className="hover:text-white transition">
                   Solicitar información
                 </Link>
               </li>
@@ -75,26 +71,12 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-navy-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-navy-400 text-sm">
-              © {currentYear} {siteConfig.company}. Todos los derechos reservados.
-            </p>
-            <div className="flex space-x-6 text-sm">
-              <Link 
-                href="/aviso-legal" 
-                className="text-navy-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-              >
-                Aviso Legal
-              </Link>
-              <Link 
-                href="/privacidad" 
-                className="text-navy-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-navy-900 rounded"
-              >
-                Privacidad
-              </Link>
-            </div>
+        <div className="border-t border-navy-800 pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-sm text-navy-400">
+          <p>© {year} {siteConfig.company}. Todos los derechos reservados.</p>
+          <div className="flex gap-6">
+            <Link href="/contacto" className="hover:text-white transition">Privacidad</Link>
+            <Link href="/contacto" className="hover:text-white transition">Términos</Link>
+            <Link href="/contacto" className="hover:text-white transition">Soporte</Link>
           </div>
         </div>
       </div>

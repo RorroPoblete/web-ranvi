@@ -5,19 +5,31 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { siteConfig } from '@/lib/siteConfig'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} - ${siteConfig.description}`,
-    template: `%s | ${siteConfig.name}`,
+    default: `${siteConfig.name} — ${siteConfig.description}`,
+    template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: ['salud digital', 'tecnología médica', 'gestión hospitalaria', 'autopago', 'fila digital', 'Chile'],
+  keywords: [
+    'salud digital',
+    'software clínico',
+    'gestión hospitalaria',
+    'acreditación',
+    'trazabilidad biopsias',
+    'equipos médicos',
+    'CRM quirúrgico',
+    'autopago',
+    'fila digital',
+    'Chile',
+  ],
   authors: [{ name: siteConfig.company }],
   openGraph: {
     type: 'website',
@@ -54,11 +66,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={inter.variable}>
-      <body>
+      <body className="font-sans">
         <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

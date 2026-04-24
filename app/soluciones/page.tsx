@@ -1,383 +1,389 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { siteConfig } from '@/lib/siteConfig'
-import { CheckIcon, QueueListIcon, CreditCardIcon, ShieldCheckIcon, LinkIcon, BuildingLibraryIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowRightIcon,
+  CheckCircleIcon,
+  HeartIcon,
+  BeakerIcon,
+  WrenchScrewdriverIcon,
+  QueueListIcon,
+  CreditCardIcon,
+  ChatBubbleLeftRightIcon,
+  ClipboardDocumentCheckIcon,
+  ShieldCheckIcon,
+  LinkIcon,
+} from '@heroicons/react/24/outline'
 
 export const metadata = {
   title: 'Soluciones',
-  description: 'Conoce nuestras soluciones tecnológicas para el sector salud: Gestor de Fila Digital, Tótem de Autopago, Chatbot de Confirmación de Citas y Sistema de Calidad para Acreditación',
+  description:
+    'CRM quirúrgico, trazabilidad de biopsias, gestión de equipos médicos, gestor de fila, tótem de autopago, chatbot de citas y sistema de calidad para acreditación.',
+}
+
+type Tone = 'light' | 'dark' | 'tint'
+
+interface Product {
+  id: string
+  eyebrow?: string
+  title: string
+  tagline: string
+  description: string
+  icon: React.ComponentType<{ className?: string }>
+  tone: Tone
+  accent: 'primary' | 'teal'
+  benefits?: string[]
+  features?: string[]
+  howItWorks?: { step: number; title: string; description: string }[]
+  useCases?: string[]
+  stages?: string[]
+  extras?: { title: string; body: string }[]
+  logo?: string
+}
+
+const s = siteConfig.solutions
+
+const products: Product[] = [
+  {
+    id: s.surgicalCrm.slug,
+    eyebrow: 'Nuevo · CRM Quirúrgico',
+    title: s.surgicalCrm.title,
+    tagline: s.surgicalCrm.tagline,
+    description: s.surgicalCrm.description,
+    icon: HeartIcon,
+    tone: 'dark',
+    accent: 'primary',
+    benefits: s.surgicalCrm.benefits,
+    features: s.surgicalCrm.features,
+    howItWorks: s.surgicalCrm.howItWorks,
+    stages: s.surgicalCrm.stages,
+    useCases: s.surgicalCrm.useCases,
+  },
+  {
+    id: s.biopsyTraceability.slug,
+    eyebrow: 'Nuevo · Trazabilidad',
+    title: s.biopsyTraceability.title,
+    tagline: s.biopsyTraceability.tagline,
+    description: s.biopsyTraceability.description,
+    icon: BeakerIcon,
+    tone: 'light',
+    accent: 'primary',
+    benefits: s.biopsyTraceability.benefits,
+    features: s.biopsyTraceability.features,
+    howItWorks: s.biopsyTraceability.howItWorks,
+    useCases: s.biopsyTraceability.useCases,
+  },
+  {
+    id: s.medicalEquipment.slug,
+    eyebrow: 'Acreditación EQ',
+    title: s.medicalEquipment.title,
+    tagline: s.medicalEquipment.tagline,
+    description: s.medicalEquipment.description,
+    icon: WrenchScrewdriverIcon,
+    tone: 'tint',
+    accent: 'teal',
+    benefits: s.medicalEquipment.benefits,
+    features: s.medicalEquipment.features,
+    howItWorks: s.medicalEquipment.howItWorks,
+    useCases: s.medicalEquipment.useCases,
+  },
+  {
+    id: s.queueManager.slug,
+    title: s.queueManager.title,
+    tagline: s.queueManager.tagline,
+    description: s.queueManager.description,
+    icon: QueueListIcon,
+    tone: 'light',
+    accent: 'primary',
+    benefits: s.queueManager.benefits,
+    howItWorks: s.queueManager.howItWorks,
+    useCases: s.queueManager.useCases,
+    logo: '/logo-gestor.png',
+  },
+  {
+    id: s.paymentKiosk.slug,
+    title: s.paymentKiosk.title,
+    tagline: s.paymentKiosk.tagline,
+    description: s.paymentKiosk.description,
+    icon: CreditCardIcon,
+    tone: 'tint',
+    accent: 'teal',
+    benefits: s.paymentKiosk.benefits,
+    extras: [
+      {
+        title: 'Seguridad PCI DSS',
+        body: 'Tótem certificado con los más altos estándares de seguridad. Cada transacción cifrada y auditable.',
+      },
+      {
+        title: 'Pasarelas integradas',
+        body: 'Transbank y Getnet listos para producción. Sincronización con facturación en tiempo real.',
+      },
+    ],
+    logo: '/logo-autopago.png',
+  },
+  {
+    id: s.appointmentChatbot.slug,
+    title: s.appointmentChatbot.title,
+    tagline: s.appointmentChatbot.tagline,
+    description: s.appointmentChatbot.description,
+    icon: ChatBubbleLeftRightIcon,
+    tone: 'light',
+    accent: 'primary',
+    benefits: s.appointmentChatbot.benefits,
+    features: s.appointmentChatbot.features,
+    howItWorks: s.appointmentChatbot.howItWorks,
+  },
+  {
+    id: s.qualitySystem.slug,
+    title: s.qualitySystem.title,
+    tagline: s.qualitySystem.tagline,
+    description: s.qualitySystem.description,
+    icon: ClipboardDocumentCheckIcon,
+    tone: 'tint',
+    accent: 'teal',
+    benefits: s.qualitySystem.benefits,
+    features: s.qualitySystem.features,
+    howItWorks: s.qualitySystem.howItWorks,
+  },
+]
+
+function ProductSection({ p }: { p: Product }) {
+  const dark = p.tone === 'dark'
+  const wrapCls =
+    p.tone === 'dark'
+      ? 'bg-navy-900 text-white'
+      : p.tone === 'tint'
+        ? 'bg-navy-50 text-navy-900'
+        : 'bg-white text-navy-900'
+
+  const accentBadge =
+    p.accent === 'teal'
+      ? 'bg-teal-100 text-teal-700'
+      : 'bg-primary-100 text-primary-700'
+
+  const accentDark =
+    p.accent === 'teal' ? 'text-teal-300' : 'text-primary-300'
+
+  const iconBox =
+    dark
+      ? `h-12 w-12 rounded-lg bg-white/10 flex items-center justify-center ${accentDark}`
+      : p.accent === 'teal'
+        ? 'h-12 w-12 rounded-lg bg-teal-100 flex items-center justify-center text-teal-600'
+        : 'h-12 w-12 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600'
+
+  const cardCls = dark
+    ? 'p-5 bg-navy-800 border border-navy-700 rounded-xl'
+    : 'p-5 bg-white border border-navy-100 rounded-xl hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/5 transition'
+
+  const checkColor = dark ? 'text-teal-400' : p.accent === 'teal' ? 'text-teal-500' : 'text-primary-500'
+  const softText = dark ? 'text-navy-300' : 'text-navy-600'
+  const mutedText = dark ? 'text-navy-400' : 'text-navy-500'
+
+  return (
+    <section id={p.id} className={`section scroll-mt-20 ${wrapCls}`}>
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-start mb-14">
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <div className={iconBox}>
+                <p.icon className="h-6 w-6" />
+              </div>
+              {p.eyebrow && (
+                <span className={`chip ${dark ? 'bg-white/10 text-white' : accentBadge}`}>
+                  {p.eyebrow}
+                </span>
+              )}
+            </div>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.08]">
+              {p.title}
+            </h2>
+            <p className={`mt-3 text-xl font-semibold ${dark ? 'text-white/90' : 'text-primary-600'}`}>
+              {p.tagline}
+            </p>
+            <p className={`mt-5 text-lg leading-relaxed max-w-3xl ${softText}`}>
+              {p.description}
+            </p>
+          </div>
+          {p.logo && (
+            <div className="relative w-32 h-32 lg:w-40 lg:h-40 bg-white rounded-2xl p-5 shrink-0 shadow-md border border-navy-100">
+              <Image src={p.logo} alt={p.title} fill className="object-contain" sizes="160px" />
+            </div>
+          )}
+        </div>
+
+        {/* Benefits */}
+        {p.benefits && (
+          <div className="mb-14">
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-5 ${dark ? 'text-primary-300' : 'text-primary-600'}`}>
+              Beneficios
+            </h3>
+            <div className="grid md:grid-cols-2 gap-x-8 gap-y-2">
+              {p.benefits.map((b) => (
+                <div key={b} className="flex items-start gap-3 py-2">
+                  <CheckCircleIcon className={`h-5 w-5 ${checkColor} mt-0.5 shrink-0`} />
+                  <span className={softText}>{b}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* How it works */}
+        {p.howItWorks && (
+          <div className="mb-14">
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-5 ${dark ? 'text-primary-300' : 'text-primary-600'}`}>
+              Cómo funciona
+            </h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              {p.howItWorks.map((step) => (
+                <div key={step.step} className={cardCls}>
+                  <span className={`flex items-center justify-center h-9 w-9 rounded-lg text-sm font-bold mb-3 ${
+                    dark ? 'bg-primary-500 text-white' : p.accent === 'teal' ? 'bg-teal-500 text-white' : 'bg-primary-500 text-white'
+                  }`}>
+                    {step.step}
+                  </span>
+                  <p className={`font-bold mb-1 ${dark ? 'text-white' : 'text-navy-900'}`}>{step.title}</p>
+                  <p className={`text-sm leading-relaxed ${mutedText}`}>{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Stages (CRM) */}
+        {p.stages && (
+          <div className="mb-14">
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-5 ${dark ? 'text-primary-300' : 'text-primary-600'}`}>
+              9 etapas validadas
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {p.stages.map((stage, i) => (
+                <div key={i} className={cardCls}>
+                  <div className="flex items-center gap-3">
+                    <span className={`flex items-center justify-center h-8 w-8 rounded-lg text-sm font-bold ${
+                      dark ? 'bg-white/10 text-primary-300' : 'bg-primary-100 text-primary-700'
+                    }`}>
+                      {i + 1}
+                    </span>
+                    <span className={`font-semibold ${dark ? 'text-white' : 'text-navy-900'}`}>{stage}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Features */}
+        {p.features && (
+          <div className="mb-14">
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-5 ${dark ? 'text-primary-300' : 'text-primary-600'}`}>
+              Funcionalidades
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {p.features.map((f) => (
+                <div key={f} className={`${cardCls} flex items-start gap-3`}>
+                  <CheckCircleIcon className={`h-5 w-5 ${checkColor} mt-0.5 shrink-0`} />
+                  <span className={`text-sm ${dark ? 'text-white/90' : 'text-navy-700'}`}>{f}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Extras */}
+        {p.extras && (
+          <div className="mb-14 grid md:grid-cols-2 gap-4">
+            {p.extras.map((e) => (
+              <div key={e.title} className={cardCls}>
+                <div className={`${iconBox} mb-4`}>
+                  <ShieldCheckIcon className="h-6 w-6" />
+                </div>
+                <h4 className={`font-bold mb-2 ${dark ? 'text-white' : 'text-navy-900'}`}>{e.title}</h4>
+                <p className={`text-sm leading-relaxed ${mutedText}`}>{e.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Use cases */}
+        {p.useCases && (
+          <div>
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-5 ${dark ? 'text-primary-300' : 'text-primary-600'}`}>
+              Casos de uso
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {p.useCases.map((u) => (
+                <span
+                  key={u}
+                  className={`px-4 py-2 rounded-full text-sm font-medium ${
+                    dark ? 'bg-navy-800 border border-navy-700 text-white' : 'bg-white border border-navy-100 text-navy-700'
+                  }`}
+                >
+                  {u}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
 }
 
 export default function SolucionesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-50 via-white to-teal-50 section-padding">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="heading-1 mb-6">Nuestras Soluciones</h1>
-            <p className="text-body text-xl max-w-2xl mx-auto">
-              Tecnología diseñada específicamente para optimizar la gestión y atención en centros de salud
-            </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-teal-50" />
+        <div aria-hidden className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary-200/40 blur-3xl" />
+        <div aria-hidden className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-teal-200/40 blur-3xl" />
+        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24 animate-fade-in-up">
+          <span className="chip-primary mb-6">Soluciones</span>
+          <h1 className="heading-hero max-w-4xl">
+            Siete plataformas. <span className="text-gradient-primary">Un mismo propósito</span>: mejor salud.
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-navy-600 max-w-3xl leading-relaxed">
+            Software clínico especializado para clínicas y hospitales en Chile.
+            Modular, integrable y diseñado con profesionales del sector.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-2">
+            {siteConfig.solutionsOrder.map((k) => {
+              const prod = siteConfig.solutions[k]
+              return (
+                <Link
+                  key={k}
+                  href={`#${prod.slug}`}
+                  className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-navy-100 text-navy-700 hover:border-primary-300 hover:text-primary-700 transition"
+                >
+                  {prod.title}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* Gestor de Fila Digital */}
-      <section id="gestor-fila" className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
-              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0 bg-white rounded-lg p-4">
-                <Image
-                  src="/logo-gestor.png?v=2"
-                  alt={`${siteConfig.solutions.queueManager.title} Logo`}
-                  fill
-                  className="object-contain"
-                  priority
-                  unoptimized
-                />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="heading-2">{siteConfig.solutions.queueManager.title}</h2>
-                <p className="text-body mt-2">{siteConfig.solutions.queueManager.description}</p>
-              </div>
-            </div>
-
-            {/* Beneficios */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Beneficios</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                {siteConfig.solutions.queueManager.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
-                    <p className="text-navy-700">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Cómo funciona */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-8">Cómo funciona</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                {siteConfig.solutions.queueManager.howItWorks.map((step) => (
-                  <div key={step.step} className="card text-center">
-                    <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                      {step.step}
-                    </div>
-                    <h4 className="heading-3 text-xl mb-3">{step.title}</h4>
-                    <p className="text-navy-600">{step.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Casos de uso */}
-            <div>
-              <h3 className="heading-3 mb-6">Casos de uso</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {siteConfig.solutions.queueManager.useCases.map((useCase, index) => (
-                  <div key={index} className="card text-center">
-                    <p className="font-semibold text-navy-900">{useCase}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tótem de Autopago */}
-      <section id="totem-autopago" className="section-padding bg-navy-50">
-        <div className="container-custom">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
-              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0">
-                <Image
-                  src="/logo-autopago.png"
-                  alt={`${siteConfig.solutions.paymentKiosk.title} Logo`}
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="heading-2">{siteConfig.solutions.paymentKiosk.title}</h2>
-                <p className="text-body mt-2">{siteConfig.solutions.paymentKiosk.description}</p>
-              </div>
-            </div>
-
-            {/* Beneficios */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Beneficios</h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                {siteConfig.solutions.paymentKiosk.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
-                    <p className="text-navy-700">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Medios de pago */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Medios de pago</h3>
-              <div className="grid md:grid-cols-3 gap-4">
-                {siteConfig.solutions.paymentKiosk.paymentMethods.map((method, index) => (
-                  <div key={index} className="card text-center">
-                    <p className="font-semibold text-navy-900">{method}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Integraciones con pasarelas de pago */}
-            {siteConfig.solutions.paymentKiosk.paymentGateways && (
-              <div className="mb-12">
-                <h3 className="heading-3 mb-6">Integraciones con pasarelas de pago</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {siteConfig.solutions.paymentKiosk.paymentGateways.map((gateway, index) => (
-                    <div key={index} className="card">
-                      <div className="flex items-center mb-3">
-                        {gateway.logo ? (
-                          <div className="relative w-16 h-16 mr-3 flex-shrink-0">
-                            <Image
-                              src={gateway.logo}
-                              alt={`${gateway.name} Logo`}
-                              fill
-                              className="object-contain"
-                            />
-                          </div>
-                        ) : (
-                          <BuildingLibraryIcon className="h-8 w-8 text-primary-500 mr-3" />
-                        )}
-                        <h4 className="heading-3 text-xl">{gateway.name}</h4>
-                      </div>
-                      <p className="text-navy-700">{gateway.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Seguridad e Integración */}
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <ShieldCheckIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Seguridad</h4>
-                </div>
-                <p className="text-navy-700">
-                  El tótem cumple con los más altos estándares de seguridad y está certificado 
-                  para procesar transacciones de manera segura, cumpliendo con normativas de 
-                  protección de datos y estándares PCI DSS.
-                </p>
-              </div>
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <LinkIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Integración</h4>
-                </div>
-                <p className="text-navy-700">
-                  Se integra de manera fluida con sistemas de facturación y gestión existentes, 
-                  permitiendo sincronización en tiempo real de transacciones y estados de cuenta. 
-                  Compatible con las principales pasarelas de pago del mercado como Transbank y Getnet.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Chatbot de Confirmación de Citas */}
-      <section id="chatbot-citas" className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
-              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0 bg-white rounded-lg p-4 flex items-center justify-center">
-                <ChatBubbleLeftRightIcon className="h-32 w-32 text-primary-500" />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="heading-2">{siteConfig.solutions.appointmentChatbot.title}</h2>
-                <p className="text-body mt-2">{siteConfig.solutions.appointmentChatbot.description}</p>
-              </div>
-            </div>
-
-            {/* Beneficios */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Beneficios</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {siteConfig.solutions.appointmentChatbot.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
-                    <p className="text-navy-700">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Cómo funciona */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-8">Cómo funciona</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                {siteConfig.solutions.appointmentChatbot.howItWorks.map((step) => (
-                  <div key={step.step} className="card text-center">
-                    <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                      {step.step}
-                    </div>
-                    <h4 className="heading-3 text-xl mb-3">{step.title}</h4>
-                    <p className="text-navy-600">{step.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Funcionalidades */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Funcionalidades</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {siteConfig.solutions.appointmentChatbot.features.map((feature, index) => (
-                  <div key={index} className="card text-center">
-                    <p className="font-semibold text-navy-900">{feature}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Integración y Disponibilidad */}
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <LinkIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Integración</h4>
-                </div>
-                <p className="text-navy-700">
-                  Se integra perfectamente con sistemas de gestión de citas y agendas médicas existentes, 
-                  sincronizando información en tiempo real y manteniendo la coherencia de datos.
-                </p>
-              </div>
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <ShieldCheckIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Disponibilidad 24/7</h4>
-                </div>
-                <p className="text-navy-700">
-                  El chatbot está disponible las 24 horas del día, los 7 días de la semana, permitiendo 
-                  a los pacientes gestionar sus citas en cualquier momento sin depender del horario de atención.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sistema de Calidad para Acreditación */}
-      <section id="sistema-calidad" className="section-padding bg-navy-50">
-        <div className="container-custom">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center md:items-start mb-12">
-              <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 md:mb-0 md:mr-10 flex-shrink-0 bg-white rounded-lg p-4 flex items-center justify-center">
-                <ShieldCheckIcon className="h-32 w-32 text-primary-500" />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="heading-2">{siteConfig.solutions.qualitySystem.title}</h2>
-                <p className="text-body mt-2">{siteConfig.solutions.qualitySystem.description}</p>
-              </div>
-            </div>
-
-            {/* Beneficios */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Beneficios</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {siteConfig.solutions.qualitySystem.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckIcon className="h-6 w-6 text-primary-500 mr-3 flex-shrink-0 mt-1" />
-                    <p className="text-navy-700">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Cómo funciona */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-8">Cómo funciona</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                {siteConfig.solutions.qualitySystem.howItWorks.map((step) => (
-                  <div key={step.step} className="card text-center">
-                    <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                      {step.step}
-                    </div>
-                    <h4 className="heading-3 text-xl mb-3">{step.title}</h4>
-                    <p className="text-navy-600">{step.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Funcionalidades */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Funcionalidades</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {siteConfig.solutions.qualitySystem.features.map((feature, index) => (
-                  <div key={index} className="card text-center">
-                    <p className="font-semibold text-navy-900">{feature}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Estándares y Normativas */}
-            <div className="mb-12">
-              <h3 className="heading-3 mb-6">Estándares y Normativas</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                {siteConfig.solutions.qualitySystem.standards.map((standard, index) => (
-                  <div key={index} className="card">
-                    <p className="font-semibold text-navy-900 text-center">{standard}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Integración y Soporte */}
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <LinkIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Integración</h4>
-                </div>
-                <p className="text-navy-700">
-                  Se integra con sistemas de gestión hospitalaria y clínicos existentes, permitiendo 
-                  la recopilación automática de datos y la generación de reportes de cumplimiento 
-                  en tiempo real.
-                </p>
-              </div>
-              <div className="card">
-                <div className="flex items-center mb-4">
-                  <ShieldCheckIcon className="h-8 w-8 text-primary-500 mr-3" />
-                  <h4 className="heading-3 text-xl">Acompañamiento</h4>
-                </div>
-                <p className="text-navy-700">
-                  Ofrecemos acompañamiento especializado durante todo el proceso de preparación 
-                  para la acreditación, desde la evaluación inicial hasta la certificación final.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {products.map((p) => <ProductSection key={p.id} p={p} />)}
 
       {/* CTA */}
-      <section className="section-padding bg-gradient-to-br from-primary-600 to-primary-700 text-white">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="heading-2 mb-6 text-white">¿Interesado en nuestras soluciones?</h2>
-            <p className="text-lg text-primary-100 mb-8">
-              Agenda una reunión con nuestro equipo para conocer más detalles y ver una demostración
-            </p>
-            <Link href="/contacto" className="btn-primary bg-white text-primary-600 hover:bg-primary-50 inline-block">
+      <section className="section bg-gradient-to-br from-primary-600 to-teal-600 text-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+            Hablemos de tu clínica.
+          </h2>
+          <p className="mt-6 text-lg text-primary-50 max-w-2xl mx-auto">
+            Agenda una reunión con nuestro equipo y diseñemos la combinación correcta para tu centro.
+          </p>
+          <div className="mt-10">
+            <Link
+              href="/contacto"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-700 font-bold rounded-lg hover:bg-primary-50 transition shadow-xl"
+            >
               Agendar reunión
+              <ArrowRightIcon className="h-5 w-5" />
             </Link>
           </div>
         </div>

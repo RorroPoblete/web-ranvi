@@ -1,8 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { siteConfig } from '@/lib/siteConfig'
-import { CheckCircleIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, EnvelopeIcon, MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+
+const interestOptions: { value: string; label: string }[] = [
+  { value: '', label: 'Selecciona una solución' },
+  ...siteConfig.solutionsOrder.map((k) => ({
+    value: k,
+    label: siteConfig.solutions[k].title,
+  })),
+  { value: 'general', label: 'Consulta general' },
+]
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +21,7 @@ export default function ContactoPage() {
     position: '',
     email: '',
     phone: '',
+    interest: '',
     message: '',
     demo: false,
   })
@@ -18,83 +29,47 @@ export default function ContactoPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const validate = () => {
-    const newErrors: Record<string, string> = {}
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'El nombre es requerido'
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'El email es requerido'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'El email no es válido'
-    }
-    if (!formData.message.trim()) {
-      newErrors.message = 'El mensaje es requerido'
-    }
-    
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const e: Record<string, string> = {}
+    if (!formData.name.trim()) e.name = 'Nombre requerido'
+    if (!formData.email.trim()) e.email = 'Email requerido'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) e.email = 'Email no válido'
+    if (!formData.message.trim()) e.message = 'Mensaje requerido'
+    setErrors(e)
+    return Object.keys(e).length === 0
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!validate()) {
-      return
-    }
-
-    // Construir el cuerpo del email
-    const subject = formData.demo 
-      ? 'Solicitud de Demo - Contacto desde sitio web'
-      : 'Contacto desde sitio web'
-    
-    const body = `Nombre: ${formData.name}\n` +
+    if (!validate()) return
+    const interestLabel =
+      interestOptions.find((o) => o.value === formData.interest)?.label || 'No especificada'
+    const subject = formData.demo ? 'Solicitud de Demo — Ranvi Systems' : 'Contacto desde sitio web'
+    const body =
+      `Nombre: ${formData.name}\n` +
       `Empresa: ${formData.company || 'No especificada'}\n` +
       `Cargo: ${formData.position || 'No especificado'}\n` +
       `Email: ${formData.email}\n` +
       `Teléfono: ${formData.phone || 'No especificado'}\n` +
+      `Solución de interés: ${interestLabel}\n` +
       `Solicita demo: ${formData.demo ? 'Sí' : 'No'}\n\n` +
       `Mensaje:\n${formData.message}`
-
-    // Usar mailto como fallback (en producción se debería usar un endpoint)
-    const mailtoLink = `mailto:contacto@ranvi.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    
-    // Intentar abrir el cliente de email
-    window.location.href = mailtoLink
-    
-    // Simular éxito (en producción esto vendría del servidor)
+    window.location.href = `mailto:contacto@ranvi.cl?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setSubmitted(true)
-    
-    // Resetear formulario después de 3 segundos
     setTimeout(() => {
-      setFormData({
-        name: '',
-        company: '',
-        position: '',
-        email: '',
-        phone: '',
-        message: '',
-        demo: false,
-      })
+      setFormData({ name: '', company: '', position: '', email: '', phone: '', interest: '', message: '', demo: false })
       setSubmitted(false)
     }, 5000)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target as HTMLInputElement
     const checked = (e.target as HTMLInputElement).checked
-    
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
-    
-    // Limpiar error del campo cuando el usuario empieza a escribir
+    setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
     if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev }
-        delete newErrors[name]
-        return newErrors
+      setErrors((prev) => {
+        const next = { ...prev }
+        delete next[name]
+        return next
       })
     }
   }
@@ -102,174 +77,168 @@ export default function ContactoPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-50 via-white to-teal-50 section-padding">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="heading-1 mb-6">Contacto</h1>
-            <p className="text-body text-xl max-w-2xl mx-auto">
-              Estamos aquí para ayudarte. Contáctanos para conocer más sobre nuestras soluciones
-            </p>
-          </div>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-teal-50" />
+        <div aria-hidden className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary-200/40 blur-3xl" />
+        <div aria-hidden className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-teal-200/40 blur-3xl" />
+        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24 animate-fade-in-up">
+          <span className="chip-primary mb-6">Contacto</span>
+          <h1 className="heading-hero max-w-3xl">
+            <span className="text-gradient-primary">Hablemos</span> de tu clínica.
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-navy-600 max-w-2xl leading-relaxed">
+            Cuéntanos sobre tu centro y qué estás buscando. Nuestro equipo te responderá en menos de 48 horas.
+          </p>
         </div>
       </section>
 
-      {/* Formulario */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="max-w-2xl mx-auto">
+      {/* Form + info */}
+      <section className="section bg-white">
+        <div className="container-wrap grid lg:grid-cols-3 gap-10">
+          <aside className="lg:col-span-1 space-y-6">
+            <div className="card">
+              <div className="icon-box mb-4">
+                <EnvelopeIcon className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-navy-900 mb-1">Email</h3>
+              <a href="mailto:contacto@ranvi.cl" className="text-primary-600 hover:text-primary-700 font-semibold">
+                contacto@ranvi.cl
+              </a>
+            </div>
+            <div className="card">
+              <div className="icon-box-teal mb-4">
+                <MapPinIcon className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-navy-900 mb-1">Ubicación</h3>
+              <p className="text-navy-600">{siteConfig.country}</p>
+            </div>
+            <div className="card bg-navy-900 text-white border-navy-800">
+              <h3 className="font-bold text-white mb-2">¿Prefieres una llamada?</h3>
+              <p className="text-navy-300 text-sm mb-4">
+                Agenda una reunión con nuestro equipo. Responderemos en menos de 48 horas hábiles.
+              </p>
+              <span className="inline-flex items-center gap-1 text-primary-300 text-sm font-semibold">
+                Completa el formulario <ArrowRightIcon className="h-4 w-4" />
+              </span>
+            </div>
+          </aside>
+
+          <div className="lg:col-span-2">
             {submitted ? (
-              <div className="card text-center">
-                <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h2 className="heading-2 mb-4">{siteConfig.contact.success.title}</h2>
-                <p className="text-body">{siteConfig.contact.success.message}</p>
+              <div className="card text-center py-16">
+                <CheckCircleIcon className="h-14 w-14 text-primary-500 mx-auto mb-5" />
+                <h2 className="text-2xl font-extrabold tracking-tight text-navy-900 mb-2">
+                  {siteConfig.contact.success.title}
+                </h2>
+                <p className="text-navy-600">{siteConfig.contact.success.message}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="card" noValidate>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <form onSubmit={handleSubmit} className="card space-y-5" noValidate>
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-semibold text-navy-900 mb-2">
-                      {siteConfig.contact.form.name} <span className="text-red-500">*</span>
+                      {siteConfig.contact.form.name} *
                     </label>
                     <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
+                      type="text" id="name" name="name"
+                      value={formData.name} onChange={handleChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900 ${
-                        errors.name ? 'border-red-500' : 'border-navy-300'
-                      }`}
-                      aria-required="true"
-                      aria-invalid={!!errors.name}
-                      aria-describedby={errors.name ? 'name-error' : undefined}
+                      className={`input-field ${errors.name ? '!border-red-500' : ''}`}
                     />
-                    {errors.name && (
-                      <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">
-                        {errors.name}
-                      </p>
-                    )}
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                   </div>
                   <div>
                     <label htmlFor="company" className="block text-sm font-semibold text-navy-900 mb-2">
                       {siteConfig.contact.form.company}
                     </label>
                     <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
+                      type="text" id="company" name="company"
+                      value={formData.company} onChange={handleChange}
+                      className="input-field"
                     />
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="position" className="block text-sm font-semibold text-navy-900 mb-2">
                       {siteConfig.contact.form.position}
                     </label>
                     <input
-                      type="text"
-                      id="position"
-                      name="position"
-                      value={formData.position}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
+                      type="text" id="position" name="position"
+                      value={formData.position} onChange={handleChange}
+                      className="input-field"
                     />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-navy-900 mb-2">
-                      {siteConfig.contact.form.email} <span className="text-red-500">*</span>
+                      {siteConfig.contact.form.email} *
                     </label>
                     <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
+                      type="email" id="email" name="email"
+                      value={formData.email} onChange={handleChange}
                       required
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900 ${
-                        errors.email ? 'border-red-500' : 'border-navy-300'
-                      }`}
-                      aria-required="true"
-                      aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? 'email-error' : undefined}
+                      className={`input-field ${errors.email ? '!border-red-500' : ''}`}
                     />
-                    {errors.email && (
-                      <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">
-                        {errors.email}
-                      </p>
-                    )}
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                   </div>
                 </div>
-                <div className="mb-6">
-                  <label htmlFor="phone" className="block text-sm font-semibold text-navy-900 mb-2">
-                    {siteConfig.contact.form.phone}
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-navy-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900"
-                  />
+
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-navy-900 mb-2">
+                      {siteConfig.contact.form.phone}
+                    </label>
+                    <input
+                      type="tel" id="phone" name="phone"
+                      value={formData.phone} onChange={handleChange}
+                      className="input-field"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="interest" className="block text-sm font-semibold text-navy-900 mb-2">
+                      {siteConfig.contact.form.interest}
+                    </label>
+                    <select
+                      id="interest" name="interest"
+                      value={formData.interest} onChange={handleChange}
+                      className="input-field"
+                    >
+                      {interestOptions.map((o) => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div className="mb-6">
+
+                <div>
                   <label htmlFor="message" className="block text-sm font-semibold text-navy-900 mb-2">
-                    {siteConfig.contact.form.message} <span className="text-red-500">*</span>
+                    {siteConfig.contact.form.message} *
                   </label>
                   <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
+                    id="message" name="message" rows={5}
+                    value={formData.message} onChange={handleChange}
                     required
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-navy-900 ${
-                      errors.message ? 'border-red-500' : 'border-navy-300'
-                    }`}
-                    aria-required="true"
-                    aria-invalid={!!errors.message}
-                    aria-describedby={errors.message ? 'message-error' : undefined}
-                  ></textarea>
-                  {errors.message && (
-                    <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">
-                      {errors.message}
-                    </p>
-                  )}
+                    className={`input-field ${errors.message ? '!border-red-500' : ''}`}
+                  />
+                  {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
                 </div>
-                <div className="mb-6">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="demo"
-                      checked={formData.demo}
-                      onChange={handleChange}
-                      className="mr-2 w-4 h-4 text-primary-600 border-navy-300 rounded focus:ring-primary-500"
-                    />
-                    <span className="text-navy-900">{siteConfig.contact.form.demoCheckbox}</span>
-                  </label>
-                </div>
-                <button type="submit" className="btn-primary w-full">
+
+                <label className="flex items-center gap-2 text-navy-700">
+                  <input
+                    type="checkbox" name="demo"
+                    checked={formData.demo} onChange={handleChange}
+                    className="w-4 h-4 text-primary-500 border-navy-300 rounded focus:ring-primary-500"
+                  />
+                  <span className="text-sm">{siteConfig.contact.form.demoCheckbox}</span>
+                </label>
+
+                <button type="submit" className="btn-primary w-full md:w-auto">
                   {siteConfig.contact.form.submit}
+                  <ArrowRightIcon className="h-4 w-4" />
                 </button>
               </form>
             )}
-          </div>
-
-          {/* Información adicional */}
-          <div className="max-w-2xl mx-auto mt-12">
-            <div className="card text-center">
-              <h3 className="heading-3 mb-4">Información de contacto</h3>
-              <p className="text-navy-700 mb-2">
-                <strong>País:</strong> {siteConfig.country}
-              </p>
-              <p className="text-navy-600 text-sm">
-                Para más información, completa el formulario y nos pondremos en contacto contigo.
-              </p>
-            </div>
           </div>
         </div>
       </section>

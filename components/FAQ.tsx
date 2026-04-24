@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 interface FAQItem {
   question: string
@@ -15,44 +15,44 @@ interface FAQProps {
 export default function FAQ({ items }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const toggleItem = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
-
   return (
-    <div className="space-y-4">
-      {items.map((item, index) => (
-        <div 
-          key={index}
-          className="border border-navy-200 rounded-lg overflow-hidden"
-        >
-          <button
-            type="button"
-            className="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-navy-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-inset"
-            onClick={() => toggleItem(index)}
-            aria-expanded={openIndex === index}
-            aria-controls={`faq-answer-${index}`}
-          >
-            <span className="font-semibold text-navy-900 pr-4">{item.question}</span>
-            <ChevronDownIcon 
-              className={`h-5 w-5 text-navy-500 flex-shrink-0 transition-transform ${
-                openIndex === index ? 'transform rotate-180' : ''
-              }`}
-              aria-hidden="true"
-            />
-          </button>
+    <div className="space-y-3">
+      {items.map((item, index) => {
+        const open = openIndex === index
+        return (
           <div
-            id={`faq-answer-${index}`}
-            className={`overflow-hidden transition-all duration-300 ${
-              openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            key={index}
+            className={`rounded-xl border transition-all ${
+              open ? 'bg-white border-primary-200 shadow-lg shadow-primary-500/5' : 'bg-white border-navy-100 hover:border-primary-200'
             }`}
           >
-            <div className="px-6 py-4 bg-navy-50 text-navy-700">
-              {item.answer}
+            <button
+              type="button"
+              className="w-full flex items-center justify-between gap-6 px-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xl"
+              onClick={() => setOpenIndex(open ? null : index)}
+              aria-expanded={open}
+            >
+              <span className="font-semibold text-navy-900 text-lg">{item.question}</span>
+              <span
+                className={`flex-shrink-0 h-8 w-8 rounded-lg flex items-center justify-center transition-all ${
+                  open ? 'bg-primary-600 text-white rotate-45' : 'bg-primary-100 text-primary-700'
+                }`}
+              >
+                <PlusIcon className="h-4 w-4" />
+              </span>
+            </button>
+            <div
+              className={`grid transition-all duration-300 ${
+                open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+              }`}
+            >
+              <div className="overflow-hidden">
+                <p className="px-6 pb-5 text-navy-600 leading-relaxed">{item.answer}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
