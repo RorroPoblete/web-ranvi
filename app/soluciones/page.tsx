@@ -15,10 +15,29 @@ import {
   LinkIcon,
 } from '@heroicons/react/24/outline'
 
+const solTitle = 'Soluciones — 7 plataformas clínicas'
+const solDescription =
+  'Explora el portafolio Ranvi: CRM quirúrgico de 9 etapas, trazabilidad de biopsias, gestión de equipos médicos (EQ 1.1–3.1), gestor de fila, tótem de autopago, chatbot de citas y sistema de calidad.'
+
 export const metadata = {
-  title: 'Soluciones',
-  description:
-    'CRM quirúrgico, trazabilidad de biopsias, gestión de equipos médicos, gestor de fila, tótem de autopago, chatbot de citas y sistema de calidad para acreditación.',
+  title: solTitle,
+  description: solDescription,
+  alternates: { canonical: '/soluciones' },
+  openGraph: {
+    type: 'website',
+    locale: 'es_CL',
+    url: '/soluciones',
+    title: solTitle,
+    description: solDescription,
+    siteName: siteConfig.name,
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: solTitle }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: solTitle,
+    description: solDescription,
+    images: ['/og-image.png'],
+  },
 }
 
 type Tone = 'light' | 'dark' | 'tint'
@@ -331,9 +350,139 @@ function ProductSection({ p }: { p: Product }) {
   )
 }
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${siteConfig.url}/soluciones#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Soluciones', item: `${siteConfig.url}/soluciones` },
+  ],
+}
+
+const collectionPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${siteConfig.url}/soluciones#webpage`,
+  url: `${siteConfig.url}/soluciones`,
+  name: solTitle,
+  description: solDescription,
+  inLanguage: 'es-CL',
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
+  about: { '@id': `${siteConfig.url}/#organization` },
+  primaryImageOfPage: `${siteConfig.url}/og-image.png`,
+  breadcrumb: { '@id': `${siteConfig.url}/soluciones#breadcrumb` },
+  hasPart: siteConfig.solutionsOrder.map((k) => {
+    const p = siteConfig.solutions[k]
+    return {
+      '@type': 'WebPageElement',
+      name: p.title,
+      url: `${siteConfig.url}/soluciones#${p.slug}`,
+    }
+  }),
+}
+
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': siteConfig.solutionsOrder.map((k) => {
+    const p = siteConfig.solutions[k]
+    const featureList = [
+      ...(('features' in p && Array.isArray((p as { features?: string[] }).features)
+        ? (p as { features?: string[] }).features ?? []
+        : []) as string[]),
+      ...(('benefits' in p && Array.isArray((p as { benefits?: string[] }).benefits)
+        ? (p as { benefits?: string[] }).benefits ?? []
+        : []) as string[]),
+    ]
+    return {
+      '@type': 'SoftwareApplication',
+      '@id': `${siteConfig.url}/soluciones#${p.slug}-app`,
+      name: p.title,
+      alternateName: p.tagline,
+      description: p.description,
+      applicationCategory: 'MedicalApplication',
+      applicationSubCategory: 'HealthApplication',
+      operatingSystem: 'Web, Cloud',
+      url: `${siteConfig.url}/soluciones#${p.slug}`,
+      inLanguage: 'es-CL',
+      ...(featureList.length > 0 ? { featureList } : {}),
+      ...('logo' in p && p.logo
+        ? { image: `${siteConfig.url}${p.logo}` }
+        : { image: `${siteConfig.url}/og-image.png` }),
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/InStock',
+        priceCurrency: 'CLP',
+        price: '0',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          priceCurrency: 'CLP',
+          price: '0',
+          valueAddedTaxIncluded: true,
+          description: 'Precio bajo cotización según alcance.',
+        },
+      },
+      provider: { '@id': `${siteConfig.url}/#organization` },
+      audience: {
+        '@type': 'BusinessAudience',
+        audienceType: 'Clínicas y hospitales en Chile',
+      },
+      areaServed: { '@type': 'Country', name: 'Chile' },
+    }
+  }),
+}
+
+const servicesJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': siteConfig.solutionsOrder.map((k) => {
+    const p = siteConfig.solutions[k]
+    return {
+      '@type': 'Service',
+      '@id': `${siteConfig.url}/soluciones#${p.slug}-service`,
+      name: p.title,
+      description: p.description,
+      serviceType: p.title,
+      category: 'HealthcareSoftware',
+      url: `${siteConfig.url}/soluciones#${p.slug}`,
+      provider: { '@id': `${siteConfig.url}/#organization` },
+      areaServed: { '@type': 'Country', name: 'Chile' },
+      audience: {
+        '@type': 'BusinessAudience',
+        audienceType: 'Clínicas, hospitales y centros de salud',
+      },
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/InStock',
+        priceCurrency: 'CLP',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          priceCurrency: 'CLP',
+          description: 'Precio bajo cotización.',
+        },
+      },
+    }
+  }),
+}
+
 export default function SolucionesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-teal-50" />

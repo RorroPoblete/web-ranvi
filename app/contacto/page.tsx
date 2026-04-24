@@ -94,6 +94,9 @@ export default function ContactoPage() {
 
       {/* Form + info */}
       <section className="section bg-white">
+        <div className="container-wrap">
+          <h2 className="sr-only">Formulario de contacto e información</h2>
+        </div>
         <div className="container-wrap grid lg:grid-cols-3 gap-10">
           <aside className="lg:col-span-1 space-y-6">
             <div className="card">

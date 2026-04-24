@@ -74,8 +74,8 @@ export default function Footer() {
         <div className="border-t border-navy-800 pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-sm text-navy-400">
           <p>© {year} {siteConfig.company}. Todos los derechos reservados.</p>
           <div className="flex gap-6">
-            <Link href="/contacto" className="hover:text-white transition">Privacidad</Link>
-            <Link href="/contacto" className="hover:text-white transition">Términos</Link>
+            <Link href="/privacidad" className="hover:text-white transition">Privacidad</Link>
+            <Link href="/terminos" className="hover:text-white transition">Términos</Link>
             <Link href="/contacto" className="hover:text-white transition">Soporte</Link>
           </div>
         </div>

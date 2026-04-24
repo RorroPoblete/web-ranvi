@@ -1,31 +1,49 @@
 import { MetadataRoute } from 'next'
 import { siteConfig } from '@/lib/siteConfig'
 
+const LAST_UPDATED = new Date('2026-04-24')
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const base = siteConfig.url.replace(/\/$/, '')
+
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: siteConfig.url,
-      lastModified: new Date(),
+      url: `${base}/`,
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/soluciones`,
-      lastModified: new Date(),
+      url: `${base}/soluciones`,
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
-      url: `${siteConfig.url}/nosotros`,
-      lastModified: new Date(),
+      url: `${base}/nosotros`,
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${siteConfig.url}/contacto`,
-      lastModified: new Date(),
+      url: `${base}/contacto`,
+      lastModified: LAST_UPDATED,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority: 0.8,
+    },
+    {
+      url: `${base}/privacidad`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${base}/terminos`,
+      lastModified: LAST_UPDATED,
+      changeFrequency: 'yearly',
+      priority: 0.3,
     },
   ]
+
+  return staticRoutes
 }

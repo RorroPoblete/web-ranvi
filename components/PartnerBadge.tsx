@@ -16,6 +16,7 @@ export default function PartnerBadge({ name, role, logo, logoAlt }: PartnerBadge
             src={logo}
             alt={logoAlt || `${name} logo`}
             fill
+            sizes="128px"
             className="object-contain"
           />
         </div>

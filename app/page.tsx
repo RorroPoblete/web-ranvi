@@ -21,9 +21,29 @@ import {
   BoltIcon,
 } from '@heroicons/react/24/outline'
 
+const homeTitle = 'Software clínico para clínicas y hospitales en Chile'
+const homeDescription =
+  'Ranvi Systems: CRM quirúrgico, trazabilidad de biopsias, gestión de equipos médicos para acreditación EQ, tótem de autopago, gestor de fila y más — integrados con tus sistemas clínicos.'
+
 export const metadata = {
-  title: 'Software clínico para centros de salud en Chile',
-  description: siteConfig.hero.subtitle,
+  title: homeTitle,
+  description: homeDescription,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'es_CL',
+    url: '/',
+    title: homeTitle,
+    description: homeDescription,
+    siteName: siteConfig.name,
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: siteConfig.name }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: homeTitle,
+    description: homeDescription,
+    images: ['/og-image.png'],
+  },
 }
 
 const s = siteConfig.solutions
@@ -122,28 +142,95 @@ const partners = [
   { name: 'Getnet', logo: '/logo-getnet.png' },
 ]
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${siteConfig.url}/#faq`,
+  inLanguage: 'es-CL',
+  mainEntity: siteConfig.faq.map((q) => ({
+    '@type': 'Question',
+    name: q.question,
+    acceptedAnswer: { '@type': 'Answer', text: q.answer },
+  })),
+}
+
+const webPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${siteConfig.url}/#webpage`,
+  url: siteConfig.url,
+  name: homeTitle,
+  description: homeDescription,
+  inLanguage: 'es-CL',
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
+  about: { '@id': `${siteConfig.url}/#organization` },
+  primaryImageOfPage: `${siteConfig.url}/og-image.png`,
+  breadcrumb: { '@id': `${siteConfig.url}/#home-breadcrumb` },
+}
+
+const homeBreadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${siteConfig.url}/#home-breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteConfig.url },
+  ],
+}
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${siteConfig.url}/#solutions-list`,
+  name: 'Soluciones Ranvi Systems',
+  description:
+    'Portafolio de 7 plataformas clínicas para clínicas y hospitales en Chile.',
+  numberOfItems: siteConfig.solutionsOrder.length,
+  itemListElement: siteConfig.solutionsOrder.map((k, i) => {
+    const p = siteConfig.solutions[k]
+    return {
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.title,
+      url: `${siteConfig.url}/soluciones#${p.slug}`,
+    }
+  }),
+}
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeBreadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-teal-50" />
-        <div aria-hidden className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary-200/40 blur-3xl" />
-        <div aria-hidden className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-teal-200/40 blur-3xl" />
-        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-28 animate-fade-in-up">
-          <div className="max-w-3xl">
-            <span className="chip-primary mb-6">Software clínico todo-en-uno · Chile</span>
-            <h1 className="heading-hero">
-              Siete plataformas que{' '}
+        <div aria-hidden className="absolute -top-32 -right-32 h-[32rem] w-[32rem] rounded-full bg-primary-200/40 blur-3xl" />
+        <div aria-hidden className="absolute -bottom-32 -left-32 h-[32rem] w-[32rem] rounded-full bg-teal-200/40 blur-3xl" />
+        <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-40 lg:py-48 animate-fade-in-up">
+          <div className="max-w-5xl">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.02] text-navy-900">
+              Plataformas que{' '}
               <span className="text-gradient-primary">modernizan</span>{' '}
               tu clínica.
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-navy-600 leading-relaxed max-w-2xl">
-              CRM quirúrgico, trazabilidad de biopsias, gestión de equipos médicos, gestor de fila,
-              tótem de autopago, chatbot de citas y sistema de calidad para acreditación — integrados
-              con tus sistemas existentes.
+            <p className="mt-8 text-xl md:text-2xl text-navy-600 leading-relaxed max-w-3xl">
+              CRM quirúrgico, trazabilidad de biopsias, gestión de equipos médicos y más — integrados con tus sistemas existentes.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-12 flex flex-wrap gap-4">
               <Link href="/contacto" className="btn-primary">
                 Solicitar demo
                 <ArrowRightIcon className="h-5 w-5" />
@@ -151,12 +238,6 @@ export default function HomePage() {
               <Link href="/soluciones" className="btn-secondary">
                 Ver soluciones
               </Link>
-            </div>
-            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
-              <Stat value="7" label="Plataformas" />
-              <Stat value="Ley 19.628" label="Cumplimiento" />
-              <Stat value="EQ 1.1 → 3.1" label="Acreditación" />
-              <Stat value="24/7" label="Soporte" />
             </div>
           </div>
         </div>
@@ -196,7 +277,7 @@ export default function HomePage() {
                 <p className="text-primary-600 text-sm font-semibold mb-3">{p.tagline}</p>
                 <p className="text-sm text-navy-500 leading-relaxed flex-1">{p.desc}</p>
                 <span className="mt-5 inline-flex items-center gap-1 text-primary-600 text-sm font-semibold group-hover:gap-2 transition-all">
-                  Conocer más <ArrowRightIcon className="h-4 w-4" />
+                  Ver {p.title} <ArrowRightIcon className="h-4 w-4" />
                 </span>
               </Link>
             ))}
@@ -205,12 +286,12 @@ export default function HomePage() {
       </section>
 
       {/* CRM QUIRURGICO — flow */}
-      <section id="crm" className="section bg-navy-50">
+      <section id="crm" className="section bg-white border-t border-navy-100">
         <div className="container-wrap">
           <div className="max-w-2xl mb-14">
             <span className="eyebrow">CRM Quirúrgico</span>
             <h2 className="mt-3 heading-section">
-              9 etapas validadas. <span className="text-gradient-primary">Nada cae entremedio.</span>
+              9 etapas validadas. Nada cae entremedio.
             </h2>
             <p className="mt-4 text-lg text-navy-600">
               Cada etapa tiene responsables, SLA y requisitos automáticos. Si falta algo, el sistema no deja avanzar.
@@ -218,7 +299,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {crmStages.map((stage) => (
-              <div key={stage.n} className="group p-5 bg-white rounded-xl border border-navy-100 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/5 transition-all">
+              <div key={stage.n} className="group p-5 bg-navy-50 rounded-xl border border-navy-100 hover:border-primary-200 hover:bg-white hover:shadow-lg hover:shadow-primary-500/5 transition-all">
                 <div className="flex items-center gap-3">
                   <span className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary-100 text-primary-700 text-sm font-bold group-hover:bg-primary-600 group-hover:text-white transition">
                     {stage.n}
@@ -237,12 +318,12 @@ export default function HomePage() {
       </section>
 
       {/* BIOPSIAS — flow */}
-      <section id="biopsias" className="section bg-white">
+      <section id="biopsias" className="section bg-navy-50">
         <div className="container-wrap grid lg:grid-cols-2 gap-14 items-center">
           <div>
             <span className="eyebrow">Trazabilidad de Biopsias</span>
             <h2 className="mt-3 heading-section">
-              Cada muestra, <span className="text-gradient-primary">cada paso trazado</span>.
+              Cada muestra, cada paso trazado.
             </h2>
             <p className="mt-4 text-lg text-navy-600">
               Desde la solicitud hasta el informe anatomopatológico: libro de trazabilidad auditable,
@@ -263,31 +344,31 @@ export default function HomePage() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {s.biopsyTraceability.howItWorks.map((step, i) => (
-              <div key={step.step} className={`p-5 rounded-xl border ${i === 0 ? 'bg-primary-50 border-primary-100' : i === 1 ? 'bg-teal-50 border-teal-100' : 'bg-navy-50 border-navy-100'}`}>
-                <span className="flex items-center justify-center h-8 w-8 rounded-lg bg-white text-primary-700 text-sm font-bold mb-3">
+            {s.biopsyTraceability.howItWorks.map((step) => (
+              <div key={step.step} className="p-5 rounded-xl bg-white border border-navy-100">
+                <span className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary-100 text-primary-700 text-sm font-bold mb-3">
                   {step.step}
                 </span>
                 <p className="font-semibold text-navy-900 mb-1">{step.title}</p>
                 <p className="text-sm text-navy-600">{step.description}</p>
               </div>
             ))}
-            <div className="p-5 rounded-xl bg-gradient-to-br from-primary-500 to-teal-500 text-white">
-              <BeakerIcon className="h-6 w-6 mb-3" />
+            <div className="p-5 rounded-xl bg-navy-900 text-white">
+              <BeakerIcon className="h-6 w-6 mb-3 text-primary-300" />
               <p className="font-semibold mb-1">Multi-tenant</p>
-              <p className="text-sm text-white/85">Pensado para redes de salud y clínicas con varios centros.</p>
+              <p className="text-sm text-navy-300">Pensado para redes de salud y clínicas con varios centros.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* EQUIPOS MEDICOS — acreditacion EQ */}
-      <section id="equipos" className="section bg-navy-50">
+      <section id="equipos" className="section bg-white border-t border-navy-100">
         <div className="container-wrap">
           <div className="max-w-2xl mb-14">
             <span className="eyebrow">Gestión de Equipos Médicos</span>
             <h2 className="mt-3 heading-section">
-              Acreditación EQ, <span className="text-gradient-primary">bajo control</span>.
+              Acreditación EQ, bajo control.
             </h2>
             <p className="mt-4 text-lg text-navy-600">
               GMEM cumple los estándares EQ de la Superintendencia de Salud. Evidencia lista para el acreditador en cada visita.
@@ -295,7 +376,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {eqStandards.map((eq) => (
-              <div key={eq.code} className="p-6 bg-white rounded-xl border border-navy-100 hover:border-teal-200 hover:shadow-lg hover:shadow-teal-500/5 transition-all">
+              <div key={eq.code} className="p-6 bg-navy-50 rounded-xl border border-navy-100 hover:border-teal-200 hover:bg-white hover:shadow-lg hover:shadow-teal-500/5 transition-all">
                 <span className="chip-teal mb-3">{eq.code}</span>
                 <h3 className="font-bold text-navy-900 mb-2">{eq.title}</h3>
                 <p className="text-sm text-navy-500 leading-relaxed">{eq.desc}</p>
@@ -311,7 +392,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES — todo integrado */}
-      <section className="section bg-white">
+      <section className="section bg-navy-50">
         <div className="container-wrap">
           <div className="max-w-2xl mb-16">
             <span className="eyebrow">Todo integrado</span>
@@ -345,7 +426,7 @@ export default function HomePage() {
               Seguridad y cumplimiento
             </span>
             <h2 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
-              Datos clínicos bajo <span className="text-gradient-primary">estándar hospitalario</span>.
+              Datos clínicos bajo estándar hospitalario.
             </h2>
             <p className="mt-4 text-lg text-navy-300 leading-relaxed">
               Diseñado desde el primer día para operar bajo las leyes chilenas de protección de datos personales y derechos del paciente.
@@ -444,14 +525,6 @@ export default function HomePage() {
   )
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <p className="text-3xl md:text-4xl font-extrabold text-navy-900">{value}</p>
-      <p className="mt-1 text-navy-500">{label}</p>
-    </div>
-  )
-}
 
 function SecurityBadge({
   icon: Icon,
@@ -468,5 +541,6 @@ function SecurityBadge({
       <p className="font-bold text-white">{label}</p>
       <p className="text-xs text-navy-400 mt-1">{sub}</p>
     </div>
-  )
+
+)
 }

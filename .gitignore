@@ -33,3 +33,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude
+/.claude/
+/public/_originals/
+
+# duplicated logo assets in root (use /public/ versions)
+/logo RANVI-Photoroom.png
+/logo_*.png
+/logo-getnet.png
+/out.zip

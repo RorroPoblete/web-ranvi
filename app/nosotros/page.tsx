@@ -10,10 +10,29 @@ import {
   PuzzlePieceIcon,
 } from '@heroicons/react/24/outline'
 
+const nosTitle = 'Nosotros — Empresa chilena de software clínico'
+const nosDescription =
+  'Ranvi SpA desarrolla software especializado para clínicas y hospitales en Chile. Conoce nuestra misión, enfoque en salud, proceso de implementación y partners como MasterKey y Clever Salud.'
+
 export const metadata = {
-  title: 'Nosotros',
-  description:
-    'Ranvi Systems desarrolla software clínico especializado para el sector salud en Chile. Misión, enfoque, proceso de implementación y partners.',
+  title: nosTitle,
+  description: nosDescription,
+  alternates: { canonical: '/nosotros' },
+  openGraph: {
+    type: 'website',
+    locale: 'es_CL',
+    url: '/nosotros',
+    title: nosTitle,
+    description: nosDescription,
+    siteName: siteConfig.name,
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: nosTitle }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: nosTitle,
+    description: nosDescription,
+    images: ['/og-image.png'],
+  },
 }
 
 const values = [
@@ -23,9 +42,42 @@ const values = [
   { icon: PuzzlePieceIcon, title: 'Integración flexible', desc: 'Compatible con sistemas existentes y entornos clínicos diversos.' },
 ]
 
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${siteConfig.url}/nosotros#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Nosotros', item: `${siteConfig.url}/nosotros` },
+  ],
+}
+
+const aboutPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${siteConfig.url}/nosotros#webpage`,
+  url: `${siteConfig.url}/nosotros`,
+  name: nosTitle,
+  description: nosDescription,
+  inLanguage: 'es-CL',
+  isPartOf: { '@id': `${siteConfig.url}/#website` },
+  mainEntity: { '@id': `${siteConfig.url}/#organization` },
+  about: { '@id': `${siteConfig.url}/#organization` },
+  primaryImageOfPage: `${siteConfig.url}/og-image.png`,
+  breadcrumb: { '@id': `${siteConfig.url}/nosotros#breadcrumb` },
+}
+
 export default function NosotrosPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-teal-50" />
@@ -148,7 +200,7 @@ export default function NosotrosPage() {
           <div className="grid md:grid-cols-2 gap-5">
             <div className="card flex items-start gap-5">
               <div className="relative w-20 h-20 shrink-0 bg-white rounded-xl border border-navy-100 p-2">
-                <Image src="/logo-masterkey.png" alt={siteConfig.partners.masterkey.name} fill className="object-contain" />
+                <Image src="/logo-masterkey.png" alt={siteConfig.partners.masterkey.name} fill sizes="80px" className="object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-navy-900 text-lg">{siteConfig.partners.masterkey.name}</h3>
@@ -158,7 +210,7 @@ export default function NosotrosPage() {
             </div>
             <div className="card flex items-start gap-5">
               <div className="relative w-20 h-20 shrink-0 bg-white rounded-xl border border-navy-100 p-2">
-                <Image src="/logo-clever-salud.png" alt={siteConfig.partners.cleverSalud.name} fill className="object-contain" />
+                <Image src="/logo-clever-salud.png" alt={siteConfig.partners.cleverSalud.name} fill sizes="80px" className="object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-navy-900 text-lg">{siteConfig.partners.cleverSalud.name}</h3>
